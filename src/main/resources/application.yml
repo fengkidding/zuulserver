@@ -1,0 +1,57 @@
+# ==============================================================
+# zuul网关
+#
+# 完整文档查看
+# ==============================================================
+
+# 启动端口
+server:
+  port: 10001
+
+# 配置微服务名称
+spring:
+  application:
+    name: zuulserver
+  http:
+    multipart:
+      max-file-size: 200mb
+      max-request-size: 200mb
+  cloud:
+    inetutils:
+      default-ip-address: 127.0.0.1
+
+# 注册中心
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: http://admin:root@127.0.0.1:10000/eureka/
+    instance:
+      hostname: ${spring.cloud.inetutils.default-ip-address}
+      ip-address: ${spring.cloud.inetutils.default-ip-address}
+      prefer-ip-address: true
+      instance-id: ${spring.cloud.inetutils.default-ip-address}:${server.port}
+
+# 网关配置
+#zuul:
+#  # 忽略所以微服务
+#  ignored-services: '*'
+#  routes:
+#    bill: /user/**
+
+# 停止服务
+endpoints:
+  shutdown:
+    enabled: true
+    path: stop
+management:
+  security:
+    enabled: false
+  port: 10001
+  address: 127.0.0.1
+
+# 文件下载地址
+uploadPath: upload/
+
+
