@@ -1,6 +1,6 @@
 package com.zuulserver.common.handle;
 
-import com.zuulserver.common.util.LogBackUtils;
+import com.zuulserver.common.log.LogBackUtils;
 import com.zuulserver.model.enums.ResultEnum;
 import com.zuulserver.model.exception.ServiceException;
 import com.zuulserver.model.vo.ResultVO;

@@ -10,6 +10,9 @@ server:
 
 # 配置微服务名称
 spring:
+  profiles:
+    # 测试dev 生产prod
+    active: dev
   application:
     name: zuulserver
   http:
