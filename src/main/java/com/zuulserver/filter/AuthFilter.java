@@ -73,12 +73,8 @@ public class AuthFilter extends ZuulFilter {
                 Integer memberId = decodedJWT.getClaim(AuthConstant.MEMBER_ID).asInt();
                 String userName = decodedJWT.getClaim(AuthConstant.USER_NAME).asString();
                 LogBackUtils.info("AuthInterceptor.preHandle id=" + memberId + ",userName=" + userName);
-                if (StringUtils.isBlank(RequestCommonUtils.getRequetHeader(AuthConstant.MEMBER_ID))) {
-                    ctx.addZuulRequestHeader(AuthConstant.MEMBER_ID, memberId.toString());
-                }
-                if (StringUtils.isBlank(RequestCommonUtils.getRequetHeader(AuthConstant.TRACE_ID))) {
-                    ctx.addZuulRequestHeader(AuthConstant.TRACE_ID, UUID.randomUUID().toString());
-                }
+                ctx.addZuulRequestHeader(AuthConstant.MEMBER_ID, memberId.toString());
+                ctx.addZuulRequestHeader(AuthConstant.TRACE_ID, UUID.randomUUID().toString());
             } catch (Exception e) {
                 LogBackUtils.error("AuthInterceptor.preHandle token异常:token=" + token, e);
                 ctx.setSendZuulResponse(false);
