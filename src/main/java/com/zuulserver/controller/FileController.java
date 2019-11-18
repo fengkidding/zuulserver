@@ -4,8 +4,8 @@ import com.zuulserver.model.enums.ResultEnum;
 import com.zuulserver.model.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +18,7 @@ import java.io.File;
  * @author f
  * @date 2018-05-14
  */
+@RequestMapping(value = "/upload")
 @RestController
 public class FileController {
 
@@ -30,7 +31,7 @@ public class FileController {
      * @param file
      * @return
      */
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @PostMapping(value = "/file")
     public ResultVO<String> upload(@RequestParam(value = "file", required = true) MultipartFile file) {
         ResultVO resultVmo = new ResultVO();
         try {
