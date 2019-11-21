@@ -1,10 +1,7 @@
 package com.zuulserver.common.log.factory;
 
 import com.alibaba.fastjson.JSON;
-import com.zuulserver.common.log.model.ApplicationLog;
-import com.zuulserver.common.log.model.LogApplicationContext;
-import com.zuulserver.common.log.model.LogLevel;
-import com.zuulserver.common.log.model.PerformanceLog;
+import com.zuulserver.common.log.model.*;
 import com.zuulserver.common.util.RequestCommonUtils;
 import com.zuulserver.config.FinalEnvConfig;
 
@@ -33,7 +30,7 @@ public class LogMsgFactory {
         log.setEnv(FinalEnvConfig.getEnv());
         log.setLogVersion("1.0.0");
         log.setLogTime(LocalDateTime.now().format(dateTimeFormatter));
-        log.setTraceId(RequestCommonUtils.getRequetHeader("trace_id"));
+        log.setTraceId(RequestCommonUtils.getRequetHeader(LogConstant.TRACE_ID));
         LogApplicationContext context = new LogApplicationContext();
         context.setUrl(RequestCommonUtils.getUrl());
         context.setMethod(RequestCommonUtils.getMethod());
@@ -62,7 +59,7 @@ public class LogMsgFactory {
         log.setAppName(FinalEnvConfig.getAppName());
         log.setServerIp(RequestCommonUtils.getServerIp());
         log.setClientIp(RequestCommonUtils.getClientIp());
-        log.setTraceId(RequestCommonUtils.getRequetHeader("trace_id"));
+        log.setTraceId(RequestCommonUtils.getRequetHeader(LogConstant.TRACE_ID));
         return log;
     }
 

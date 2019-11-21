@@ -5,6 +5,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.zuulserver.common.log.LogBackUtils;
+import com.zuulserver.common.log.model.LogConstant;
 import com.zuulserver.common.util.RequestCommonUtils;
 import com.zuulserver.common.util.SessionUtils;
 import com.zuulserver.common.util.SignUtils;
@@ -72,9 +73,9 @@ public class AuthFilter extends ZuulFilter {
                 DecodedJWT decodedJWT = SignUtils.verifyToken(token, SignUtils.signingSecret);
                 Integer memberId = decodedJWT.getClaim(AuthConstant.MEMBER_ID).asInt();
                 String userName = decodedJWT.getClaim(AuthConstant.USER_NAME).asString();
-                LogBackUtils.info("AuthInterceptor.preHandle id=" + memberId + ",userName=" + userName);
                 ctx.addZuulRequestHeader(AuthConstant.MEMBER_ID, memberId.toString());
-                ctx.addZuulRequestHeader(AuthConstant.TRACE_ID, UUID.randomUUID().toString());
+                ctx.addZuulRequestHeader(LogConstant.TRACE_ID, UUID.randomUUID().toString());
+                LogBackUtils.info("AuthInterceptor.preHandle id=" + memberId + ",userName=" + userName);
             } catch (Exception e) {
                 LogBackUtils.error("AuthInterceptor.preHandle token异常:token=" + token, e);
                 ctx.setSendZuulResponse(false);
