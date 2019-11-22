@@ -6,13 +6,13 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.zuulserver.common.log.LogBackUtils;
 import com.zuulserver.common.log.model.LogConstant;
-import com.zuulserver.common.util.RequestCommonUtils;
 import com.zuulserver.common.util.SessionUtils;
 import com.zuulserver.common.util.SignUtils;
 import com.zuulserver.model.constant.AuthConstant;
 import com.zuulserver.model.enums.ResultEnum;
 import com.zuulserver.pattern.factory.ResultVOFactory;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +26,9 @@ import java.util.UUID;
  */
 @Component
 public class AuthFilter extends ZuulFilter {
+
+    @Value("${login-secret}")
+    private String secret;
 
     /**
      * 前置过滤器
@@ -70,12 +73,13 @@ public class AuthFilter extends ZuulFilter {
         LogBackUtils.info("AuthInterceptor.preHandle token=" + token);
         if (StringUtils.isNotBlank(token)) {
             try {
-                DecodedJWT decodedJWT = SignUtils.verifyToken(token, SignUtils.signingSecret);
+                DecodedJWT decodedJWT = SignUtils.verifyToken(token, secret);
                 Integer memberId = decodedJWT.getClaim(AuthConstant.MEMBER_ID).asInt();
-                String userName = decodedJWT.getClaim(AuthConstant.USER_NAME).asString();
+                String tokenVO = decodedJWT.getClaim(AuthConstant.TOKEN_VO).asString();
                 ctx.addZuulRequestHeader(AuthConstant.MEMBER_ID, memberId.toString());
+                ctx.addZuulRequestHeader(AuthConstant.TOKEN_VO, tokenVO);
                 ctx.addZuulRequestHeader(LogConstant.TRACE_ID, UUID.randomUUID().toString());
-                LogBackUtils.info("AuthInterceptor.preHandle id=" + memberId + ",userName=" + userName);
+                LogBackUtils.info("AuthInterceptor.preHandle id=" + memberId + ",tokenVO=" + tokenVO);
             } catch (Exception e) {
                 LogBackUtils.error("AuthInterceptor.preHandle token异常:token=" + token, e);
                 ctx.setSendZuulResponse(false);

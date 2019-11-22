@@ -22,7 +22,7 @@ import java.io.File;
 @RestController
 public class FileController {
 
-    @Value("${uploadPath}")
+    @Value("${upload-path}")
     private String path;
 
     /**

@@ -1,11 +1,14 @@
 package com.zuulserver.common.util;
 
+import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.auth0.jwt.interfaces.JWTVerifier;
+import com.zuulserver.model.constant.AuthConstant;
+import com.zuulserver.model.vo.TokenVO;
 
-import java.util.HashMap;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,11 +21,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SignUtils {
 
     /**
-     * jwt密钥
-     */
-    public static final String signingSecret = "SIGNING_SECRET";
-
-    /**
      * 加密算法map缓存
      */
     private static Map<String, Algorithm> algorithmMap = new ConcurrentHashMap<>();
@@ -30,7 +28,7 @@ public class SignUtils {
     /**
      * 验证算法map缓存
      */
-    private static Map<String, JWTVerifier> verifierMap = new HashMap<>();
+    private static Map<String, com.auth0.jwt.JWTVerifier> verifierMap = new ConcurrentHashMap<>();
 
     /**
      * 根据密钥获得加密算法
@@ -65,4 +63,23 @@ public class SignUtils {
         return jwt;
     }
 
+    /**
+     * 生成token
+     *
+     * @param tokenVO
+     * @param secret
+     * @param duration 有效期
+     * @return
+     */
+    public static String generateToken(TokenVO tokenVO, String secret, long duration) {
+        Algorithm algorithm = SignUtils.getAlgorithm(secret);
+        String token = JWT.create()
+                .withClaim(AuthConstant.MEMBER_ID, tokenVO.getMemberId())
+                .withClaim(AuthConstant.TOKEN_VO, JSON.toJSONString(tokenVO))
+                .withExpiresAt(new Date(System.currentTimeMillis() + duration))
+                .sign(algorithm);
+        return token;
+    }
+
 }
+
