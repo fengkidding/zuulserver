@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.3.RELEASE</version>
+        <version>1.5.10.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -24,7 +24,7 @@
         <java.version>1.8</java.version>
 
         <!-- spring-cloud-dependencies版本 -->
-        <springcloud.version>Camden.SR4</springcloud.version>
+        <springcloud.version>Edgware.RELEASE</springcloud.version>
         <fastjson.version>1.2.54</fastjson.version>
         <jwt.version>3.6.0</jwt.version>
         <logback.encoder.version>4.11</logback.encoder.version>
@@ -46,6 +46,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
+        </dependency>
+
+        <!-- 配置中心 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
         <!-- 网关 -->

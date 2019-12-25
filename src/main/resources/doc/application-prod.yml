@@ -33,17 +33,6 @@ eureka:
 #  routes:
 #    bill: /user/**
 
-# 停止服务
-endpoints:
-  shutdown:
-    enabled: true
-    path: stop
-management:
-  security:
-    enabled: false
-  port: 10001
-  address: 127.0.0.1
-
 # 文件下载地址
 upload-path: upload/
 
