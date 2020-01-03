@@ -11,7 +11,9 @@ jwt认证鉴权：AuthFilter网关统一验证，成功后将鉴权信息和日�
 
 filter：过滤器
 
-common：通用的功能模块 log：统一结构化日志工具类 util：工具类
+common：通用的功能模块 
+  log：统一结构化日志工具类 
+  util：工具类
 
 config：配置类
 
