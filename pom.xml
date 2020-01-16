@@ -67,6 +67,12 @@
             <version>${fastjson.version}</version>
         </dependency>
 
+        <!-- rabbitmq/amqp-client -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
         <!-- jwt认证 -->
         <dependency>
             <groupId>com.auth0</groupId>
